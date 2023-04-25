@@ -1,8 +1,8 @@
 {
-  "name": "erc20-asset-generator",
+  "name": "planq-asset-wizard",
   "private": false,
   "version": "0.0.1",
-  "description": "An ethereum ERC20 token creator, issue your own token on ethereum with just a few clicks",
+  "description": "A Planq token creator, issue your own token on Planq with just a few clicks",
   "scripts": {
     "start": "http-webnode ./ -p 4002 -c-1",
     "test": "echo \"Error: no test specified\" && exit 1"

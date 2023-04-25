@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ERC20 Asset Generator</title>
+    <title>Planq Asset Wizard</title>
     <!--CDN for Bootstrap 4-->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!--CDN for Animation-->
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <!--Main Stylesheet-->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="assets/css/main.css">
     <!--Link for Material Icon-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -21,15 +21,15 @@
     <div class="row wrap-form animated fadeInDown">
         <div class="col-12 align-self-end hide" id="metamask-locked">
             <i class="material-icons metamask-span">lock</i>
-            <span class="metamask-text">Metamask Locked</span>
+            <span class="metamask-text">Wallet Locked</span>
         </div>
         <div class="col-12 align-self-end hide" id="metamask-unlocked">
             <i class="material-icons metamask-span">lock_open</i>
-            <span class="metamask-text">Metamask Unlocked</span>
+            <span class="metamask-text">Wallet Unlocked</span>
         </div>
         <!--Asset Generator Form-->
         <div class="col-12 align-self-center">
-            <p class="heading" align="center">ERC20 Asset Generator</p>
+            <p class="heading" align="center">Planq Asset Wizard</p>
             <!--Content to be Displayed when metamask is not available-->
             <p class="content" id="metamask-status"></p>
             <!--When you are connected to mainnet-->
@@ -91,20 +91,13 @@
         </ul>
     </div>
 </div>
-<!--Section for Info Message ends-->
-<div class="container-third">
-    <div class="row copyright-row">
-        <p class="copyright">© EthOrbit 2018. All Rights Reserved.</p>
-    </div>
-</div>
 
 <!--Libs-->
 <!--CDN for jquery and popper.js and bootstrap-->
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/web3.min.js"></script>
 <!--Core-->
-<script src="scripts/app.js"></script>
+<script src="assets/js/app.js" type="module"></script>
 </body>
 </html>

@@ -4,7 +4,9 @@
   Author: Sayed Tauseef Naqvi
   Keywords: ethereum, ERC20, token, asset, web3js, MetaMask
   -->
-# ERC20 Asset/Token Generator
+# Planq Asset Wizard
+
+A fork of https://github.com/sthnaqvi/erc20-asset-generator
 
 ![ERC20 Asset Generator Screenshot](https://i.imgur.com/ZZZP7PS.png)
 
