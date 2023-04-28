@@ -39,6 +39,20 @@
         <div class="col-12 align-self-center">
             <form id="asset-form">
                 <div class="form-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-append">
+                            <label class="input-group-text" for="type">Type</label>
+                        </div>
+                        <select type="text" class="form-control" id="type" required>
+                            <option value="0" selected>ERC20 - Standard</option>
+                            <option value="1">ERC20 - Mint + Burn</option>
+                            <option value="2">ERC20 - Mint + Burn + FlashMint</option>
+                        </select>
+                    </div>
+                    <a href="#asset-type"><i
+                        id="info-type" class="material-icons info">info</i></a>
+                </div>
+                <div class="form-group">
                     <input type="text" class="form-control" id="name" placeholder="Name" required><a href="#asset-name"><i
                         id="info-name" class="material-icons info">info</i></a>
                 </div>
@@ -70,6 +84,9 @@
 <div class="container-second">
     <div class="row info-content">
         <ul class="list-group list-group-flush" id="list-group">
+            <li class="list-group-item animated fadeInUp" id="asset-type"> • <span class="info-heading">TYPE : </span>
+                <p class="info-main">Select the token type. You can pick between simple ERC20 tokens to extended ones.</p>
+            </li>
             <li class="list-group-item animated fadeInUp" id="asset-name"> • <span class="info-heading">NAME : </span>
                 <p class="info-main">Name is simply what you want to call your token, such as Bitcoin or Ethereum.</p>
             </li>

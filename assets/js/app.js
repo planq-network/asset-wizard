@@ -111,7 +111,7 @@ function start() {
     } else {
         provider = web3;
     }
-    console.log(web3)
+
     assetFormInput.prop("disabled", false);
     metamaskStatus.hide()
     // metamaskEvents()
@@ -217,12 +217,29 @@ var initialSupply = $('#total-supply').val();
 var tokenName = $('#name').val();
 var decimalUnits = $('#decimals').val();
 var tokenSymbol = $('#symbol').val();
+var selectedType = 'ERC20';
 
 function updateTokenValues() {
     initialSupply = $('#total-supply').val();
     tokenName = $('#name').val();
     decimalUnits = $('#decimals').val();
     tokenSymbol = $('#symbol').val();
+
+    switch($('#type').find(':selected').val()) {
+        case '0':
+            selectedType = 'ERC20';
+            break;
+        case '1':
+            selectedType = 'ERC20MintBurn'
+            break;
+        case '2':
+            selectedType = 'ERC20MintBurnFlashMint'
+            break;
+        default:
+            selectedType = 'ERC20';
+            break;
+    }
+
 }
 function validateForm() {
     updateTokenValues();
@@ -252,7 +269,7 @@ assetForm.submit(async function (e) {
         //disable all form input fields
         assetFormInput.prop("disabled", true);
         const signer = await web3.getSigner();
-        const factory = new ethers.ContractFactory(contractABIs['ERC20'], contractByteCodes['ERC20'], signer);
+        const factory = new ethers.ContractFactory(contractABIs[selectedType], contractByteCodes[selectedType], signer);
 
         statusText.innerHTML = 'Waiting for contract to be deployed...';
         const contract = await factory.deploy(tokenName, tokenSymbol, decimalUnits, initialSupply)
