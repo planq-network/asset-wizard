@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Planq Asset Wizard</title>
     <!--CDN for Bootstrap 4-->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -17,95 +18,190 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicon.png">
 </head>
 <body>
-<div class="container-first">
-    <div class="row wrap-form animated fadeInDown">
-        <div class="col-12 align-self-end hide" id="metamask-locked">
-            <i class="material-icons metamask-span">lock</i>
-            <span class="metamask-text">Wallet Locked</span>
-        </div>
-        <div class="col-12 align-self-end hide" id="metamask-unlocked">
-            <i class="material-icons metamask-span">lock_open</i>
-            <span class="metamask-text">Wallet Unlocked</span>
-        </div>
-        <!--Asset Generator Form-->
-        <div class="col-12 align-self-center">
-            <p class="heading" align="center">Planq Asset Wizard</p>
-            <!--Content to be Displayed when metamask is not available-->
-            <p class="content" id="metamask-status"></p>
-            <!--When you are connected to mainnet-->
-            <p class="content hide" id="current-address" align="center"></p>
-            <p class="content hide" id="current-network" align="center"></p>
-        </div>
-        <div class="col-12 align-self-center">
-            <form id="asset-form">
-                <div class="form-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-append">
-                            <label class="input-group-text" for="type">Type</label>
+<div class="container-fluid container-first">
+    <div class="row animated fadeInDown">
+        <div class="mt-5 offset-lg-3 col-lg-6 offset-md-0 col-md-12">
+            <!--Asset Generator Form-->
+            <div class="row">
+                <div class="col-12 align-self-center">
+                    <p class="heading" align="center">Planq Asset Wizard</p>
+                    <!--Content to be Displayed when metamask is not available-->
+                    <p class="content" id="metamask-status"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 text-left hide" id="metamask-unlocked">
+                    <i class="material-icons metamask-span ">lock_open</i>
+                    <span class="metamask-text">Wallet Unlocked</span>
+                    <p class="content hide" id="current-network"></p>
+                </div>
+                <div class="col-lg-6 col-md-12 text-right">
+                    <!--When you are connected to mainnet-->
+                    <p class="content hide" id="current-address" ></p>
+                </div>
+                <div class="col-12 text-right hide" id="metamask-locked">
+                    <i class="material-icons metamask-span">lock</i>
+                    <span class="metamask-text">Wallet Locked</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <form id="asset-form">
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-append">
+                                    <label class="input-group-text" for="type">Type</label>
+                                </div>
+                                <select type="text" class="form-control" id="type" required>
+                                    <option value="0" selected>ERC20 - Standard</option>
+                                    <option value="1">ERC20 - Mint + Burn</option>
+                                    <option value="2">ERC20 - Mint + Burn + FlashMint</option>
+                                </select>
+                                <a href="#asset-type" class="input-group-append"><i
+                                        id="info-type" data-toggle="modal" data-target="#infoTypeModal" class="input-group-text material-icons info">info</i></a>
+                            </div>
                         </div>
-                        <select type="text" class="form-control" id="type" required>
-                            <option value="0" selected>ERC20 - Standard</option>
-                            <option value="1">ERC20 - Mint + Burn</option>
-                            <option value="2">ERC20 - Mint + Burn + FlashMint</option>
-                        </select>
-                    </div>
-                    <a href="#asset-type"><i
-                        id="info-type" class="material-icons info">info</i></a>
+                        <div class="input-group form-group">
+                            <input type="text" class="form-control" id="name" placeholder="Name" required>
+                            <a href="#asset-name" class="input-group-append">
+                                <i id="info-name" data-toggle="modal" data-target="#infoNameModal" class="input-group-text material-icons info">info</i>
+                            </a>
+                        </div>
+                        <div class="input-group form-group">
+                            <input type="text" class="form-control" id="symbol" placeholder="Symbol" required>
+                            <a href="#asset-symbol" class="input-group-append">
+                                <i id="info-symbol" data-toggle="modal" data-target="#infoSymbolModal" class="input-group-text material-icons info">info</i>
+                            </a>
+                        </div>
+                        <div class="input-group form-group">
+                            <input type="text" class="form-control" maxlength="2" id="decimals" placeholder="Decimals" required>
+                            <a href="#asset-decimal" class="input-group-append">
+                                <i id="info-decimal" data-toggle="modal" data-target="#infoDecimalModal"  class="input-group-text material-icons info">info</i></a>
+                            <span class="error-msg" id="decimals-error-msg"></span>
+                        </div>
+                        <div class="input-group form-group">
+                            <input type="text" class="form-control" id="total-supply" placeholder="Total Supply " required>
+                            <a href="#asset-supply" class="input-group-append">
+                                <i id="info-supply" data-toggle="modal" data-target="#infoSupplyModal" class="input-group-text material-icons info">info</i></a>
+                            <span class="error-msg" id="total-supply-error-msg"></span>
+                        </div>
+                        <div class="input-group form-group text-center">
+                            <button class="submit-button btn btn-primary btn-block" id="submit-btn" type="submit">Create
+                            </button>
+                        </div>
+                    </form>
+                    <!--Asset Generator Form Ends here-->
+                    <p id="statusText"></p>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="name" placeholder="Name" required><a href="#asset-name"><i
-                        id="info-name" class="material-icons info">info</i></a>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="symbol" placeholder="Symbol" required><a
-                        href="#asset-symbol"><i id="info-symbol" class="material-icons info">info</i></a>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" maxlength="2" id="decimals" placeholder="Decimals" required>
-                    <a href="#asset-decimal"><i id="info-decimal" class="material-icons info">info</i></a>
-                    <span class="error-msg" id="decimals-error-msg"></span>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="total-supply" placeholder="Total Supply " required>
-                    <a href="#asset-supply"><i id="info-supply" class="material-icons info">info</i></a>
-                    <span class="error-msg" id="total-supply-error-msg"></span>
-                </div>
-                <div class="form-group">
-                    <button align="center" class="submit-button btn btn-primary" id="submit-btn" type="submit">Submit
-                    </button>
-                </div>
-            </form>
-            <!--Asset Generator Form Ends here-->
-            <p id="statusText"></p>
+            </div>
         </div>
     </div>
 </div>
 <!--Section for Info Messages for Input-->
-<div class="container-second">
-    <div class="row info-content">
-        <ul class="list-group list-group-flush" id="list-group">
-            <li class="list-group-item animated fadeInUp" id="asset-type"> • <span class="info-heading">TYPE : </span>
-                <p class="info-main">Select the token type. You can pick between simple ERC20 tokens to extended ones.</p>
-            </li>
-            <li class="list-group-item animated fadeInUp" id="asset-name"> • <span class="info-heading">NAME : </span>
-                <p class="info-main">Name is simply what you want to call your token, such as Bitcoin or Ethereum.</p>
-            </li>
-            <li class="list-group-item animated fadeInUp" id="asset-symbol"> • <span
-                    class="info-heading">SYMBOL : </span>
-                <p class="info-main">Symbol will be the ticker of your token, such as BTC or ETC (normally tokens have a
-                    3 letter uppercase symbol).</p></li>
-            <li class="list-group-item animated fadeInUp" id="asset-decimal"> • <span
-                    class="info-heading">DECIMAL :  </span>
-                <p class="info-main">Decimals is how many decimal places your token can have, which determines how
-                    divisible it is. Generally tokens will have 18 decimals, which allows 1 token to be divided into
-                    trillions of pieces (eg. with 18 decimals you could have as little as 0.000000000000000001 of a
-                    token).</p></li>
-            <li class="list-group-item animated fadeInUp" id="asset-supply"> • <span
-                    class="info-heading">TOTAL SUPPLY : </span>
-                <p class="info-main">Total Supply will be number of tokens available. Token Total Supply <strong>VALUE</strong>
-                    will be total number of tokens to the power of decimal places. (eg. if total supply is 1000 and
-                    decimals is 18 then give 1000000000000000000000 as a value.)</p></li>
-        </ul>
+<!-- Modal -->
+<div class="modal fade" id="infoTypeModal" tabindex="-1" role="dialog" aria-labelledby="infoTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoTypeModalLabel">Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Select the token type. You can pick between simple ERC20 tokens to extended ones.<br><br>
+                <strong>ERC20 - Mint + Burn</strong><br>
+                    Offers additional token minting and burning.<br><br>
+                    <strong>ERC20 - Mint + Burn + FlashMint</strong><br>
+                        Offers additional token minting and burning + Support for flash loans.
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="infoNameModal" tabindex="-1" role="dialog" aria-labelledby="infoNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoNameModalLabel">Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Name is simply what you want to call your token, such as Bitcoin or Ethereum.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="infoSymbolModal" tabindex="-1" role="dialog" aria-labelledby="infoSymbolModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoSymbolModalLabel">Symbol</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Symbol will be the ticker of your token, such as BTC or ETC (normally tokens have a
+                3 letter uppercase symbol).
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="infoDecimalModal" tabindex="-1" role="dialog" aria-labelledby="infoDecimalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoDecimalModalLabel">Decimal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Decimals is how many decimal places your token can have, which determines how
+                divisible it is. Generally tokens will have 18 decimals, which allows 1 token to be divided into
+                trillions of pieces (eg. with 18 decimals you could have as little as 0.000000000000000001 of a
+                token).
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="infoSupplyModal" tabindex="-1" role="dialog" aria-labelledby="infoSupplyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoSupplyModalLabel">Total Supply</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Total Supply will be number of tokens available. Token Total Supply <strong>VALUE</strong>
+                will be total number of tokens to the power of decimal places. <br>It will be automatically calculated to the correct decimal places. <br><br><strong>Example</strong><br>If you want to emit 10 tokens and got 2 decimals, input 10 not 1000.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 

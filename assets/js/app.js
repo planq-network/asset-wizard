@@ -119,7 +119,7 @@ function start() {
         .then(function (networkId) {
             if (networkId == '7070') {
                 isMainNetwork = true;
-                currentNetwork.text('You are currently at Mainnet').show();
+                currentNetwork.text('You are currently on Mainnet').show();
             } else
                 currentNetwork.text('Your current network id is ' + networkId).show();
         });
@@ -151,7 +151,7 @@ function start() {
                 }
             })
             .then(function (balance) {
-                accountAddress.html('<strong>Selected Account:<br/>' + address + ' (' + balance + ' PLQ)</br>').show();
+                accountAddress.html(address + '<br/>Available ' + balance + ' PLQ</br>').show();
             });
     }, 1000);
 }
@@ -316,12 +316,5 @@ $("#total-supply").keypress(function (e) {
         //display error message
         $("#total-supply-error-msg").html("Digits Only").show().fadeOut("slow");
         return false;
-    } else {
-        //TODO:show token total supply will be on bottom of total supply input
-        // $("#total-supply").keyup(function (e) {
-        //     if ($("#decimals").val() && $('#total-supply').val()) {
-        //         console.log(Math.trunc($('#total-supply').val() / Math.pow(10, $("#decimals").val()))
-        //     }
-        // })
     }
 });
