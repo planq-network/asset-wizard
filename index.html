@@ -32,16 +32,16 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 text-left hide" id="metamask-unlocked">
                     <i class="material-icons metamask-span ">lock_open</i>
-                    <span class="metamask-text">Wallet Unlocked</span>
+                    <span class="metamask-text">Wallet Unlocked</span> <a href="#" id="wallet-logout">Logout</a>
                     <p class="content hide" id="current-network"></p>
                 </div>
                 <div class="col-lg-6 col-md-12 text-right">
                     <!--When you are connected to mainnet-->
                     <p class="content hide" id="current-address" ></p>
                 </div>
-                <div class="col-12 text-right hide" id="metamask-locked">
+                <div class="col-12 text-right" id="metamask-locked">
                     <i class="material-icons metamask-span">lock</i>
-                    <span class="metamask-text">Wallet Locked</span>
+                    <span class="metamask-text">Wallet Locked</span> <a href="#" id="wallet-login">Login</a>
                 </div>
             </div>
 
@@ -100,6 +100,27 @@
 </div>
 <!--Section for Info Messages for Input-->
 <!-- Modal -->
+<div class="modal fade" id="walletSelect" tabindex="-1" role="dialog" aria-labelledby="walletSelectLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="walletSelectLabel">Select Wallet</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <button type="button" class="btn btn-info" data-dismiss="modal" id="metamaskWallet">Metamask</button>-->
+                <button type="button" class="btn btn-info btn-block" data-dismiss="modal" id="keplrWallet"><img src="./assets/images/keplr.svg"></button>
+                <button type="button" class="btn btn-info btn-block" data-dismiss="modal" id="leapWallet"><img src="./assets/images/leap.svg"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="infoTypeModal" tabindex="-1" role="dialog" aria-labelledby="infoTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

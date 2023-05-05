@@ -8,6 +8,8 @@ var web3,
     isMainNetwork,
     isMetaMaskLocked,
     address;
+
+var walletProvider = undefined
 var isMetamask = false;
 var metamaskStatus = $('#metamask-status');
 var accountAddress = $('#current-address');
@@ -22,7 +24,7 @@ assetFormInput.prop("disabled", true);
 
 async function getAccount() {
     try {
-        if (web3) {
+        if (web3 && walletProvider) {
             const account = (
                 await window.ethereum.request({ method: 'eth_requestAccounts' })
             )[0]
@@ -32,7 +34,7 @@ async function getAccount() {
             )
         }
 
-        return '0x0000000000000000000000000000000000000000'
+        return []
     } catch (error) {
         console.log(error)
         throw new Error(
@@ -41,41 +43,79 @@ async function getAccount() {
     }
 }
 
-async function selectWeb3Provider(){
-    if(window.leap) {
-        web3 = new LeapProvider(
-            'https://evm-rpc.planq.network:443',
-            {
-                chainId: 7070,
-                name: 'Planq',
-            },
-            'planq_7070-2',
-            true,
-        )
-    } else if (window.keplr) {
-        web3 = new KeplrProvider(
-            'https://evm-rpc.planq.network:443',
-            {
-                chainId: 7070,
-                name: 'Planq',
-            },
-            'planq_7070-2',
-            true,
-        )
-    } else if (window.ethereum) {
-        web3 = new ethers.providers.Web3Provider(window.ethereum)
-        isMetamask = true;
+async function selectWeb3Provider(i){
+    switch(i) {
+        case 0:
+            isMetamask = false
+            web3 = new LeapProvider(
+                'https://evm-rpc.planq.network:443',
+                {
+                    chainId: 7070,
+                    name: 'Planq',
+                },
+                'planq_7070-2',
+                true,
+            )
+            break;
+        case 1:
+            isMetamask = false
+            web3 = new KeplrProvider(
+                'https://evm-rpc.planq.network:443',
+                {
+                    chainId: 7070,
+                    name: 'Planq',
+                },
+                'planq_7070-2',
+                true,
+            )
+            break;
+        case 2:
+            web3 = new ethers.providers.Web3Provider(window.ethereum)
+            isMetamask = true;
+            break;
+        default:
+            web3 = new ethers.providers.Web3Provider(window.ethereum)
+            isMetamask = true;
+            break;
+    }
+
+    if (web3) {
+        start()
     } else {
         console.log('No web3 provider detected || web3 not exits');
         metamaskStatus.html('You do not appear to be connected to any Ethereum network. To use this service and deploy your contract, we recommend using the <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en">MetaMask</a> plugin for Google Chrome, which allows your web browser to connect to an Ethereum network.').show();
     }
-    if (web3) {
-        start()
-    }
 }
 
 window.addEventListener('load', async () => {
-    await selectWeb3Provider();
+    $('#wallet-login').on('click', function(e) {
+        e.preventDefault()
+
+        $('#walletSelect').modal("toggle");
+    });
+
+    $('#wallet-logout').on('click', function(e) {
+        e.preventDefault()
+    walletProvider = undefined;
+    $('#walletSelect').modal("toggle");
+    });
+    $('#metamaskWallet').on('click', async function(e) {
+        e.preventDefault()
+        walletProvider = "metamask"
+        await selectWeb3Provider(2);
+    });
+    $('#keplrWallet').on('click', async function(e) {
+        e.preventDefault()
+        walletProvider = "keplr"
+        await selectWeb3Provider(1);
+    });
+    $('#leapWallet').on('click', async function(e) {
+        e.preventDefault()
+        walletProvider = "leap"
+        await selectWeb3Provider(0);
+    });
+
+
     // New ethereum provider
 });
 
@@ -193,13 +233,14 @@ function requestAccounts() {
 
 async function getBalance(address) {
     if(isMetamask) {
-    return sendSync({ method: 'eth_getBalance', params: [address] })
-        .then(function (result) {
-            return ethers.utils.formatEther(result['result']);
-        })
-        .fail(function (err) {
-            return err;
-        })
+        requestAccounts();
+        return sendSync({ method: 'eth_getBalance', params: [address, "latest"] })
+            .then(function (result) {
+                return ethers.utils.formatEther(result['result']);
+            })
+            .fail(function (err) {
+                return err;
+            })
     } else {
         const balance = await provider.getBalance(address);
         return ethers.utils.formatEther(balance)
