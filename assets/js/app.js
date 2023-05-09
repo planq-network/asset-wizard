@@ -36,7 +36,6 @@ async function getAccount() {
 
         return []
     } catch (error) {
-        console.log(error)
         throw new Error(
             'Could not unlock an account. Consider installing Status on your mobile or Metamask extension',
         )
@@ -197,18 +196,14 @@ function start() {
 }
 
 function sendSync(params) {
-    console.log(params)
     var defer = $.Deferred();
     provider.sendAsync(params, function (err, result) {
         if (err) {
-            console.log(err)
             return defer.reject(err.json());
         }
         if (result['error']) {
-            console.log(result)
             return defer.reject(result['error']);
         }
-        console.log(err)
         defer.resolve(result)
     }
     );
@@ -228,14 +223,11 @@ async function getEthNetworkId() {
 }
 
 async function requestAccounts() {
-    console.log("reqacc")
     await sendSync({method: 'eth_requestAccounts'})
         .then(function (result) {
-            console.log(result)
             return result['result'];
         })
         .fail(function (err) {
-            console.log(err)
             return err;
         })
 }
