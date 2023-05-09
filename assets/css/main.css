@@ -158,6 +158,8 @@ p {
     display: none;
 }
 
-.modal h5 {
+
+
+option, .modal h5 {
     color: #212529;
 }

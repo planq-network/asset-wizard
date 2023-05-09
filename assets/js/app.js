@@ -166,7 +166,7 @@ function start() {
 
     setInterval(function () {
         isLocked()
-            .then(function (isLocked) {
+            .then(async function (isLocked) {
                 if (isLocked) {
                     isMetaMaskLocked = true;
                     metamaskUnlocked.hide();
@@ -178,16 +178,16 @@ function start() {
                 metamaskUnlocked.show();
                 metamaskLocked.hide();
 
-                return getAccount()
+                return await getAccount();
             })
-            .then(function (account) {
+            .then(async function (account) {
                 if (account.length > 0) {
                     if (isMetaMaskLocked) {
                         isMetaMaskLocked = false;
                         assetFormInput.prop("disabled", false);
                     }
                     address = account;
-                    return getBalance(account);
+                    return await getBalance(account);
                 }
             })
             .then(function (balance) {
@@ -197,12 +197,18 @@ function start() {
 }
 
 function sendSync(params) {
+    console.log(params)
     var defer = $.Deferred();
-    provider.send(params.method, params.params, function (err, result) {
-        if (err)
+    provider.sendAsync(params, function (err, result) {
+        if (err) {
+            console.log(err)
             return defer.reject(err.json());
-        if (result['error'])
+        }
+        if (result['error']) {
+            console.log(result)
             return defer.reject(result['error']);
+        }
+        console.log(err)
         defer.resolve(result)
     }
     );
@@ -221,20 +227,23 @@ async function getEthNetworkId() {
     }
 }
 
-function requestAccounts() {
-    return sendSync({ method: 'eth_requestAccounts' })
+async function requestAccounts() {
+    console.log("reqacc")
+    await sendSync({method: 'eth_requestAccounts'})
         .then(function (result) {
+            console.log(result)
             return result['result'];
         })
         .fail(function (err) {
+            console.log(err)
             return err;
         })
 }
 
 async function getBalance(address) {
     if(isMetamask) {
-        requestAccounts();
-        return sendSync({ method: 'eth_getBalance', params: [address, "latest"] })
+        await requestAccounts();
+        return await sendSync({ method: 'eth_getBalance', params: [address, "latest"] })
             .then(function (result) {
                 return ethers.utils.formatEther(result['result']);
             })
